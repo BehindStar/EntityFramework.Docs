@@ -5,19 +5,14 @@ This walkthrough will create a simple console application using ASP.NET 5 and
 the SQLite provider.
 
 .. note::
-    This article was written for beta 6 of ASP.NET and EF7. 
+    This article was written for beta 8 of ASP.NET and EF7.
 
-    You can find nightly builds of the EF7 code base hosted on https://www.myget.org/F/aspnetvnext/api/v2/ but the code base is rapidly changing and we do not maintain up-to-date documentation for getting started.
+    You can find nightly builds of the EF7 code base hosted on https://www.myget.org/gallery/aspnetvnext/ but the code base is rapidly changing and we do not maintain up-to-date documentation for getting started.
 
 
-In this article
-    - `Prerequisites`_
-    - `Install ASP.NET 5`_
-    - `Create a new project`_
-    - `Create your model`_
-    - `Create your database`_
-    - `Use your model`_
-    - `Start your app`_
+.. contents:: `In this article:`
+    :depth: 1
+    :local:
 
 .. note:: `View this article's samples on GitHub <https://github.com/aspnet/EntityFramework.Docs/tree/master/docs/getting-started/x-plat/sample>`_.
 
@@ -46,7 +41,7 @@ The following steps will install `dnvm <https://github.com/aspnet/home#running-a
 
     .. code-block:: console
 
-        ~ $ sudo apt-get install libunwind8 libssl-dev unzip
+        ~ $ sudo apt-get install unzip curl libunwind8 gettext libssl-dev libcurl3-dev zlib1g libicu-dev
 
  - Install mono.
 
@@ -63,19 +58,19 @@ The following steps will install `dnvm <https://github.com/aspnet/home#running-a
 
         ~ $ mozroots --import --sync
 
- - Run the dnvm
+ - Install dnvm
 
     .. code-block:: console
 
         ~ $ curl -sSL https://raw.githubusercontent.com/aspnet/Home/dev/dnvminstall.sh | DNX_BRANCH=dev sh && source ~/.dnx/dnvm/dnvm.sh
 
  - Verify dnvm has the latest version
-    
+
     .. code-block:: console
 
         ~ $ dnvm upgrade
 
-If you have trouble installing dnvm, consult this `Getting Started guide <http://dotnet.github.io/core/getting-started/>`_.
+If you have trouble installing dnvm, consult `Installing ASP.NET 5 on Linux <http://docs.asp.net/en/latest/getting-started/installing-on-linux.html>`_.
 
 
 .. include:: x-plat/guide.rst

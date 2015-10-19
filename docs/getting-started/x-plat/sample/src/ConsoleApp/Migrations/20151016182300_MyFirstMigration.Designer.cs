@@ -3,12 +3,12 @@ using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
-using EFGetStarted.UWP;
+using ConsoleApp;
 
-namespace EFGetStarted.UWP.Migrations
+namespace ConsoleApp.Migrations
 {
     [DbContext(typeof(BloggingContext))]
-    [Migration("20150729201928_MyFirstMigration")]
+    [Migration("20151016182300_MyFirstMigration")]
     partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,18 +16,19 @@ namespace EFGetStarted.UWP.Migrations
             modelBuilder
                 .Annotation("ProductVersion", "7.0.0-beta8-15964");
 
-            modelBuilder.Entity("EFGetStarted.UWP.Blog", b =>
+            modelBuilder.Entity("ConsoleApp.Blog", b =>
                 {
                     b.Property<int>("BlogId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Url")
-                        .IsRequired();
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Url");
 
                     b.HasKey("BlogId");
                 });
 
-            modelBuilder.Entity("EFGetStarted.UWP.Post", b =>
+            modelBuilder.Entity("ConsoleApp.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd();
@@ -41,9 +42,9 @@ namespace EFGetStarted.UWP.Migrations
                     b.HasKey("PostId");
                 });
 
-            modelBuilder.Entity("EFGetStarted.UWP.Post", b =>
+            modelBuilder.Entity("ConsoleApp.Post", b =>
                 {
-                    b.HasOne("EFGetStarted.UWP.Blog")
+                    b.HasOne("ConsoleApp.Blog")
                         .WithMany()
                         .ForeignKey("BlogId");
                 });

@@ -16,7 +16,7 @@ In this article:
 `View this article's samples on GitHub <https://github.com/aspnet/EntityFramework.Docs/tree/master/docs/getting-started/full-dotnet/sample>`_.
 
 .. note::
-    This walkthrough uses EF 7.0.0-beta6 which is the latest pre-release available on NuGet.org.
+    This walkthrough uses EF 7.0.0-beta8 which is the latest pre-release available on NuGet.org.
 
     You can find nightly builds of the EF7 code base hosted on https://www.myget.org/F/aspnetvnext/api/v2/ but the code base is rapidly changing and we do not maintain up-to-date documentation for getting started.
 
@@ -53,9 +53,6 @@ Later in this walkthrough we will also be using some Entity Framework commands t
 
 * Run ``Install-Package EntityFramework.Commands –Pre``
 
-.. note::
-    At this point build your project. If you receive a build error stating *Multiple assemblies with equivalent identity have been imported* then expand the **References** node in **Solution Explorer**, right-click on **System.Collections.Concurrent**, and select **Remove**.
-
 Create your model
 -----------------
 
@@ -65,7 +62,11 @@ Now it's time to define a context and entity classes that make up your model.
 * Enter *Model.cs* as the name and click **OK**
 * Replace the contents of the file with the following code
 
-.. note:: Notice the ``OnConfiguring`` method (new in EF7) that is used to specify the provider to use and, optionally, other configuration too.
+.. note::
+    Notice the ``OnConfiguring`` method (new in EF7) that is used to specify the provider to use and, optionally, other configuration too.
+
+.. note::
+    In a real application you would typically put each class from your model in a separate file. For the sake of simplicity, we are putting all the classes in one file for this tutorial.
 
 .. literalinclude:: full-dotnet/sample/EFGetStarted.ConsoleApp/Model.cs
         :language: c#
@@ -78,10 +79,10 @@ Now that you have a model, you can use migrations to create a database for you.
 
 * :menuselection:`Tools –> NuGet Package Manager –> Package Manager Console`
 * Run ``Add-Migration MyFirstMigration`` to scaffold a migration to create the initial set of tables for your model.
-* Run ``Apply-Migration`` to apply the new migration to the database. Because your database doesn't exist yet, it will be created for you before the migration is applied.
+* Run ``Update-Database`` to apply the new migration to the database. Because your database doesn't exist yet, it will be created for you before the migration is applied.
 
 .. tip::
-    If you make future changes to your model, you can use the ``Add-Migration`` command to scaffold a new migration to apply the corresponding changes to the database. Once you have checked the scaffolded code (and made any required changes), you can use the ``Apply-Migration`` command to apply the changes to the database.
+    If you make future changes to your model, you can use the ``Add-Migration`` command to scaffold a new migration to apply the corresponding changes to the database. Once you have checked the scaffolded code (and made any required changes), you can use the ``Update-Database`` command to apply the changes to the database.
 
 Use your model
 --------------

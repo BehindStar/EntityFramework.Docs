@@ -18,7 +18,7 @@ In this article:
 `View this article's samples on GitHub <https://github.com/aspnet/EntityFramework.Docs/tree/master/docs/getting-started/aspnet5/sample>`_.
 
 .. note::
-    This walkthrough uses EF 7.0.0-beta6 which is the latest pre-release available on NuGet.org.
+    This walkthrough uses EF 7.0.0-beta8 which is the latest pre-release available on NuGet.org.
 
     You can find nightly builds of the EF7 code base hosted on https://www.myget.org/F/aspnetvnext/api/v2/ but the code base is rapidly changing and we do not maintain up-to-date documentation for getting started.
 
@@ -27,6 +27,7 @@ Prerequisites
 
 The following items are required to complete this walkthrough:
     - Visual Studio 2015
+    - ASP.NET 5 Beta 8 Tools for Visual Studio
 
 Create a new project
 --------------------
@@ -39,8 +40,8 @@ Create a new project
     - Enter **EFGetStarted.AspNet5** as the name and click **OK**
 
 When the **New ASP.NET Project** dialog appears:
-    - Under **ASP.NET 5 Preview Templates** select **Web Site**
-    - Ensure that **Authentication** is set to **None**
+    - Under **ASP.NET 5 Preview Templates** select **Web Application**
+    - Ensure that **Authentication** is set to **No Authentication**
     - Click **OK**
 
 .. caution::
@@ -67,7 +68,7 @@ Later in this walkthrough we will also be using some Entity Framework commands t
 .. literalinclude:: aspnet5/sample/src/EFGetStarted.AspNet5/project.json
         :language: json
         :linenos:
-        :lines: 21-24
+        :lines: 21-25
         :emphasize-lines: 3
 
 Create your model
@@ -77,10 +78,13 @@ Now it's time to define a context and entity classes that make up your model.
     - Right-click on the project in **Solution Explorer** and select :menuselection:`Add --> New Folder`
     - Enter **Models** as the name of the folder
     - Right-click on the **Models** folder and select :menuselection:`Add --> New Item...`
-    - From the left menu select :menuselection:`Installed --> ASP.NET 5`
+    - From the left menu select :menuselection:`Installed --> Server-side`
     - Select the **Class** item template
     - Enter **BloggingModel.cs** as the name and click **OK**
     - Replace the contents of the file with the following code
+
+.. note::
+    In a real application you would typically put each class from your model in a separate file. For the sake of simplicity, we are putting all the classes in one file for this tutorial.
 
 .. literalinclude:: aspnet5/sample/src/EFGetStarted.AspNet5/Models/BloggingModel.cs
         :language: c#
@@ -101,7 +105,7 @@ In order for our MVC controllers to make use of ``BloggingContext`` we are going
 .. literalinclude:: aspnet5/sample/src/EFGetStarted.AspNet5/Startup.cs
         :language: c#
         :linenos:
-        :lines: 15-16
+        :lines: 11-12
 
 Now we can use the ``AddDbContext`` method to register it as a service.
     - Locate the ``ConfigureServices`` method
@@ -110,25 +114,24 @@ Now we can use the ``AddDbContext`` method to register it as a service.
 .. literalinclude:: aspnet5/sample/src/EFGetStarted.AspNet5/Startup.cs
         :language: c#
         :linenos:
-        :lines: 33-42
+        :lines: 30-37
         :emphasize-lines: 4-8
 
 Create your database
 --------------------
 
 .. caution::
-
     The migrations experience in ASP.NET 5 is still a work-in-progress. The following steps are overly complex and will be simplified by the time we reach a stable release.
 
 Now that you have a model, you can use migrations to create a database for you.
     - Open a command prompt (**Windows Key + R**, type **cmd**, click **OK**)
     - Use the ``cd`` command to navigate to the project directory
-    - Run ``dnvm use 1.0.0-beta6``
-    - Run ``dnx . ef migration add MyFirstMigration`` to scaffold a migration to create the initial set of tables for your model.
-    - Run ``dnx . ef migration apply`` to apply the new migration to the database. Because your database doesn't exist yet, it will be created for you before the migration is applied.
+    - Run ``dnvm use 1.0.0-beta8``
+    - Run ``dnx ef migrations add MyFirstMigration`` to scaffold a migration to create the initial set of tables for your model.
+    - Run ``dnx ef database update`` to apply the new migration to the database. Because your database doesn't exist yet, it will be created for you before the migration is applied.
 
 .. tip::
-    If you make future changes to your model, you can use the ``dnx . ef migration add`` command to scaffold a new migration to apply the corresponding changes to the database. Once you have checked the scaffolded code (and made any required changes), you can use the ``dnx . ef migration apply`` command to apply the changes to the database.
+    If you make future changes to your model, you can use the ``dnx ef migrations add`` command to scaffold a new migration to apply the corresponding changes to the database. Once you have checked the scaffolded code (and made any required changes), you can use the ``dnx ef database update`` command to apply the changes to the database.
 
 Create a controller
 -------------------

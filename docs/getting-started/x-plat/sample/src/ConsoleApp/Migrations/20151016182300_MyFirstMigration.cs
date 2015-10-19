@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
 
-namespace EFGetStarted.UWP.Migrations
+namespace ConsoleApp.Migrations
 {
     public partial class MyFirstMigration : Migration
     {
@@ -14,7 +14,8 @@ namespace EFGetStarted.UWP.Migrations
                 {
                     BlogId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Url = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

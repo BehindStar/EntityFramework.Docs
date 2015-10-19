@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Diagnostics;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Routing;
+using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using Microsoft.Framework.Logging.Console;
-using Microsoft.Framework.Runtime;
-using Microsoft.Data.Entity;
 using EFGetStarted.AspNet5.Models;
+using Microsoft.Data.Entity;
 
 namespace EFGetStarted.AspNet5
 {
@@ -22,13 +18,14 @@ namespace EFGetStarted.AspNet5
         public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
         {
             // Setup configuration sources.
-            var builder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
-                .AddJsonFile("config.json")
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(appEnv.ApplicationBasePath)
+                .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; set; }
+        public IConfigurationRoot Configuration { get; set; }
 
         // This method gets called by the runtime.
         public void ConfigureServices(IServiceCollection services)
@@ -52,6 +49,7 @@ namespace EFGetStarted.AspNet5
         {
             loggerFactory.MinimumLevel = LogLevel.Information;
             loggerFactory.AddConsole();
+            loggerFactory.AddDebug();
 
             // Configure the HTTP request pipeline.
 
@@ -59,14 +57,17 @@ namespace EFGetStarted.AspNet5
             if (env.IsDevelopment())
             {
                 app.UseBrowserLink();
-                app.UseErrorPage();
+                app.UseDeveloperExceptionPage();
             }
             else
             {
                 // Add Error handling middleware which catches all application specific errors and
                 // send the request to the following path or controller action.
-                app.UseErrorHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
+
+            // Add the platform handler to the request pipeline.
+            app.UseIISPlatformHandler();
 
             // Add static files to the request pipeline.
             app.UseStaticFiles();

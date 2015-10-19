@@ -1,32 +1,33 @@
 using System;
 using Microsoft.Data.Entity;
+using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
-using Microsoft.Data.Entity.Migrations.Infrastructure;
+using Microsoft.Data.Entity.Migrations;
 using EFGetStarted.AspNet5.Models;
 
 namespace EFGetStarted.AspNet5.Migrations
 {
-    [ContextType(typeof(BloggingContext))]
+    [DbContext(typeof(BloggingContext))]
     partial class BloggingContextModelSnapshot : ModelSnapshot
     {
-        public override void BuildModel(ModelBuilder builder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
-            builder
-                .Annotation("ProductVersion", "7.0.0-beta6-13815")
-                .Annotation("SqlServer:ValueGenerationStrategy", "IdentityColumn");
+            modelBuilder
+                .Annotation("ProductVersion", "7.0.0-beta8-15964")
+                .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            builder.Entity("EFGetStarted.AspNet5.Models.Blog", b =>
+            modelBuilder.Entity("EFGetStarted.AspNet5.Models.Blog", b =>
                 {
                     b.Property<int>("BlogId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Url")
-                        .Required();
+                        .IsRequired();
 
-                    b.Key("BlogId");
+                    b.HasKey("BlogId");
                 });
 
-            builder.Entity("EFGetStarted.AspNet5.Models.Post", b =>
+            modelBuilder.Entity("EFGetStarted.AspNet5.Models.Post", b =>
                 {
                     b.Property<int>("PostId")
                         .ValueGeneratedOnAdd();
@@ -37,13 +38,13 @@ namespace EFGetStarted.AspNet5.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Key("PostId");
+                    b.HasKey("PostId");
                 });
 
-            builder.Entity("EFGetStarted.AspNet5.Models.Post", b =>
+            modelBuilder.Entity("EFGetStarted.AspNet5.Models.Post", b =>
                 {
-                    b.Reference("EFGetStarted.AspNet5.Models.Blog")
-                        .InverseCollection()
+                    b.HasOne("EFGetStarted.AspNet5.Models.Blog")
+                        .WithMany()
                         .ForeignKey("BlogId");
                 });
         }
